@@ -27,7 +27,7 @@ jobs:
     needs:
       - preparation
       - wait_approve
-    if: ${{ !cancelled() && ( needs.wait_approve.result == 'success' || needs.wait_approve == 'skipped' ) }}
+    if: ${{ !cancelled() && ( needs.wait_approve.result == 'success' || needs.wait_approve.result == 'skipped' ) }}
     steps:
       - name: Echo Execution
         run: echo '実行されました'
