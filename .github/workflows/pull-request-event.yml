@@ -1,0 +1,12 @@
+name: Pull Request Event
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  echo_event:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo Event
+        run: echo ${{ toJson(github.event) }}
