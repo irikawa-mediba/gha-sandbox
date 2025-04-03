@@ -1,0 +1,33 @@
+name: Wait Approve Test
+
+on:
+  push:
+    branches:
+      - "need_approve"
+      - "no_need_approve"
+
+jobs:
+  preparation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo Branch Name
+        run: echo 'Branch name is ${{ github.ref_name }}'
+
+  wait_approve:
+    runs-on: ubuntu-latest
+    environment: wait_approve
+    needs: preparation
+    if: github.ref_name == 'need_approve'
+    steps:
+      - name: Do Nothing
+        run: echo '実行が承認されました。'
+
+  execution:
+    runs-on: ubuntu-latest
+    needs:
+      - preparation
+      - wait_approve
+    if: ${{ !cancelled() && ( needs.wait_approve.result == 'success' || needs.wait_approve == 'skipped' ) }}
+    steps:
+      - name: Echo Execution
+        run: echo '実行されました'
