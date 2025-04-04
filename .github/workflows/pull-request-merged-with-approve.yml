@@ -40,7 +40,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Echo Execution
-        run: echo '実行されました'
+        run: |
+          echo '実行されました'
+          echo ${{ needs.preparation }}
 
   # planの役割
   execute2:
