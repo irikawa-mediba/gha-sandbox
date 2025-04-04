@@ -12,7 +12,7 @@ jobs:
   wait_approve:
     runs-on: ubuntu-latest
     environment: wait_approve
-    if: ${{ github.base_ref == 'production' || github.event.pull_request.merged == true }}
+    if: ${{ github.base_ref == 'production' && github.event.pull_request.merged == true }}
     steps:
       - name: Echo Approved
         run: echo '承認されました。'
