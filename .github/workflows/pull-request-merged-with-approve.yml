@@ -22,8 +22,11 @@ jobs:
     if: ${{ !cancelled() && ( needs.wait_approve.result == 'success' || needs.wait_approve.result == 'skipped' ) }}
     runs-on: ubuntu-latest
     steps:
-      - name: Echo Branch Name
-        run: echo 'Branch name is ${{ github.ref_name }}'
+      - name: Dump
+        run: |
+          echo 'Base Branch name: ${{ github.base_ref }}'
+          echo 'Pull Request Merged: ${{ github.event.pull_request.merged }}'
+          echo 'Wait Approve Result: ${{ needs.wait_approve.result }}'
 
   execute:
     needs: preparation
