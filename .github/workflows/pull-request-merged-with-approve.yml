@@ -38,15 +38,20 @@ jobs:
     needs: preparation
     if: ${{ !failure() && !cancelled() && needs.preparation.outputs.prepared == 'true' }}
     runs-on: ubuntu-latest
+    outputs:
+      execution_enabled: ${{ steps.echo_execution.outputs.execution_enabled }}
     steps:
       - name: Echo Execution
+        id: echo_execution
         run: |
           echo '実行されました'
           echo '${{ toJSON(needs) }}'
+          echo "execution_enabled=true" >> $GITHUB_OUTPUT
 
   # planの役割
   execute2:
     needs: execute
+    if: ${{ !failure() && !cancelled() && needs.execute.outputs.execution_enabled == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Echo Execution2
