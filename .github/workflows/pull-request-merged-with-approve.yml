@@ -30,7 +30,9 @@ jobs:
           exit 0
 
   execute:
-    needs: preparation
+    needs:
+      - wait_approve
+      - preparation
     runs-on: ubuntu-latest
     steps:
       - name: Echo Execution
