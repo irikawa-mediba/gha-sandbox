@@ -29,6 +29,7 @@ jobs:
           echo 'Wait Approve Result: ${{ needs.wait_approve.result }}'
 
   execute:
+    needs: preparation
     runs-on: ubuntu-latest
     steps:
       - name: Echo Execution
