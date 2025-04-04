@@ -1,0 +1,33 @@
+name: Pull Request Merged With Approve
+
+on:
+  pull_request:
+    branches:
+      - "staging"
+      - "production"
+    types:
+      - closed
+
+jobs:
+  wait_approve:
+    runs-on: ubuntu-latest
+    environment: wait_approve
+    if: ${{ github.base_ref == 'production' || github.event.pull_request.merged == true }}
+    steps:
+      - name: Echo Approved
+        run: echo '承認されました。'
+
+  preparation:
+    needs: wait_approve
+    if: ${{ !cancelled() && ( needs.wait_approve.result == 'success' || needs.wait_approve.result == 'skipped' ) }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo Branch Name
+        run: echo 'Branch name is ${{ github.ref_name }}'
+
+  execute:
+    needs: preparation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo Execution
+        run: echo '実行されました'
