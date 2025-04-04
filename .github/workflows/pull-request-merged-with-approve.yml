@@ -36,7 +36,7 @@ jobs:
   execute:
     # needs: preparationだけでは、wait_approveがスキップされ、preparationが実行された場合にこのジョブが実行されない
     needs: preparation
-    if: ${{ !failure() && !canceled() && needs.preparation.outputs.prepared == 'true' }}
+    if: ${{ !failure() && !cancelled() && needs.preparation.outputs.prepared == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Echo Execution
