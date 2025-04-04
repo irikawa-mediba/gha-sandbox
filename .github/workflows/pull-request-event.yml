@@ -2,11 +2,13 @@ name: Pull Request Event
 
 on:
   pull_request:
-    types: [closed]
+    types:
+      - closed
 
 jobs:
-  echo_event:
+  execute:
+    if: ${{ github.base_ref == 'merge_test' && github.event.pull_request.merged == 'true' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Echo Event
-        run: echo ${{ toJson(github.base_ref) }}
+      - name: Echo Execution
+        run: echo '実行されました'
