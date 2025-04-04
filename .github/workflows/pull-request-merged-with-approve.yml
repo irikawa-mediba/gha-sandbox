@@ -34,9 +34,9 @@ jobs:
 
   # configurationの役割
   execute:
-    # needs: preparationだけでは、wait_approveがスキップされた場合にこのジョブが実行されない
+    # needs: preparationだけでは、wait_approveがスキップされ、preparationが実行された場合にこのジョブが実行されない
     needs: preparation
-    if: needs.preparation.outputs.prepared == 'true'
+    if: ${{ always() && needs.preparation.outputs.prepared == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Echo Execution
