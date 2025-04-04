@@ -27,6 +27,7 @@ jobs:
           echo 'Base Branch name: ${{ github.base_ref }}'
           echo 'Pull Request Merged: ${{ github.event.pull_request.merged }}'
           echo 'Wait Approve Result: ${{ needs.wait_approve.result }}'
+          exit 0
 
   execute:
     needs: preparation
