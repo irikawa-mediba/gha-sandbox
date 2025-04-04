@@ -6,8 +6,16 @@ on:
       - closed
 
 jobs:
+  dump:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo Branch Name
+        run: |
+          echo 'base_ref is ${{ github.base_ref }}'
+          echo 'github.event.pull_request.merged is ${{ github.event.pull_request.merged }}'
+
   execute:
-    if: ${{ github.base_ref == 'merge_test' && github.event.pull_request.merged == 'true' }}
+    if: ${{ github.base_ref == 'main' && github.event.pull_request.merged == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Echo Execution
