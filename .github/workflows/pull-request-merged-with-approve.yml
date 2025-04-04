@@ -21,16 +21,31 @@ jobs:
     needs: wait_approve
     if: ${{ !cancelled() && ( needs.wait_approve.result == 'success' || needs.wait_approve.result == 'skipped' ) }}
     runs-on: ubuntu-latest
+    outputs:
+      prepared: ${{ steps.dump.outputs.prepared }}
     steps:
       - name: Dump
+        id: dump
         run: |
           echo 'Base Branch name: ${{ github.base_ref }}'
           echo 'Pull Request Merged: ${{ github.event.pull_request.merged }}'
           echo 'Wait Approve Result: ${{ needs.wait_approve.result }}'
+          echo "prepared=true" >> $GITHUB_OUTPUT
 
+  # configurationの役割
   execute:
+    # needs: preparationだけでは、wait_approveがスキップされた場合にこのジョブが実行されない
     needs: preparation
+    if: steps.preparation.outputs.prepared == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Echo Execution
         run: echo '実行されました'
+
+  # planの役割
+  execute2:
+    needs: execute
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo Execution2
+        run: echo '実行されました2'
