@@ -42,7 +42,7 @@ jobs:
       - name: Echo Execution
         run: |
           echo '実行されました'
-          echo ${{ toJSON(needs.preparation) }}
+          echo '${{ toJSON(needs.preparation) }}'
 
   # planの役割
   execute2:
